@@ -2,20 +2,31 @@
 export const handler = async (event) => {
   const base = (process.env.HBUK_API || "").replace(/\/+$/, "");
   const token = (process.env.HBUK_TOKEN || "").trim();
-  const path = process.env.HBUK_EVENTS_PATH || "/api/events"; // <-- configurable
 
   if (!base || !token) {
     console.error("[CONFIG] Missing HBUK_API or HBUK_TOKEN");
     return { statusCode: 500, body: "config_error" };
   }
 
+  // Candidate endpoints (first 2xx wins)
+  const candidates = [
+    process.env.HBUK_EVENTS_PATH,  // optional override from env
+    "/api/events",
+    "/api/v1/events",
+    "/api/commit",
+    "/api/v1/commit",
+    "/events",
+    "/commit",
+  ].filter(Boolean);
+
+  let body;
   try {
-    const body = JSON.parse(event.body || "{}");
-    const payload = body?.payload || {};
+    const parsed = JSON.parse(event.body || "{}");
+    const payload = parsed?.payload || {};
     const data = payload?.data || {};
     const meta = payload?.metadata || {};
 
-    const evt = {
+    body = {
       event: "lead_signup",
       rule: "netlify_form_v1",
       result: "ok",
@@ -32,24 +43,30 @@ export const handler = async (event) => {
       data_rights: { mode: "utility", allowed_train_targets: [], export_ok: false, retention_days: 365 },
       evidence: [],
     };
-
-    const url = `${base}${path}`;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Authorization": token, "Content-Type": "application/json" },
-      body: JSON.stringify(evt),
-    });
-
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("[HBUK] non-2xx:", res.status, text.slice(0, 200));
-      return { statusCode: 500, body: "hubk_error" };
-    }
-
-    console.log("[HBUK] ok");
-    return { statusCode: 200, body: "ok" };
   } catch (e) {
-    console.error("[FN ERROR]", e);
-    return { statusCode: 500, body: "fn_error" };
+    console.error("[PARSE]", e);
+    return { statusCode: 500, body: "parse_error" };
   }
+
+  for (const path of candidates) {
+    const url = `${base}${path}`;
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Authorization": token, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        console.log("[HBUK] ok via", url);
+        return { statusCode: 200, body: "ok" };
+      }
+      const text = await res.text();
+      console.warn("[HBUK] try", url, "→", res.status, text.slice(0, 160));
+    } catch (e) {
+      console.warn("[HBUK] fetch error", url, e?.message || e);
+    }
+  }
+
+  console.error("[HBUK] all paths failed");
+  return { statusCode: 500, body: "hubk_error" };
 };
