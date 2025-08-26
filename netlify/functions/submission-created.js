@@ -1,6 +1,13 @@
 // netlify/functions/submission-created.js
 export const handler = async (event) => {
   try {
+    const base = process.env.HBUK_API;
+    const token = process.env.HBUK_TOKEN;
+    if (!base || !token) {
+      console.error("[CONFIG] Missing HBUK_API or HBUK_TOKEN");
+      return { statusCode: 500, body: "config_error" };
+    }
+
     const body = JSON.parse(event.body || "{}");
     const payload = body?.payload || {};
     const data = payload?.data || {};
@@ -40,10 +47,10 @@ export const handler = async (event) => {
       evidence: [],
     };
 
-    const res = await fetch(`${process.env.HBUK_API}/api/v1/events`, {
+    const res = await fetch(`${base}/api/v1/events`, {
       method: "POST",
       headers: {
-        "Authorization": process.env.HBUK_TOKEN,
+        "Authorization": token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(evt),
