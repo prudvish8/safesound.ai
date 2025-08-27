@@ -27,11 +27,13 @@ export const handler = async (event) => {
     evidence: []
   };
 
-  // IMPORTANT: content must be a STRING
   const body = {
-    device_id: "website-netlify-01",              // include if your backend expects it
-    content: JSON.stringify(eventObj)             // <-- string, not object
+    device_id: "website-netlify-01",         // harmless if unused
+    content: JSON.stringify(eventObj)        // <-- MUST be a string
   };
+
+  // Debug: prove it's a string in Netlify logs
+  console.log("[DBG] typeof content =", typeof body.content, "len", body.content.length);
 
   const res = await fetch(url, {
     method: "POST",
