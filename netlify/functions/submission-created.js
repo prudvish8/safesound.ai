@@ -9,7 +9,7 @@ export const handler = async (event) => {
   const form = payload.data || {};
   const meta = payload.metadata || {};
 
-  const content = {
+  const eventObj = {
     event: "lead_signup",
     rule: "netlify_form_v1",
     result: "ok",
@@ -27,7 +27,11 @@ export const handler = async (event) => {
     evidence: []
   };
 
-  const body = { /* device_id: "website-netlify-01", */ content };
+  // IMPORTANT: content must be a STRING
+  const body = {
+    device_id: "website-netlify-01",              // include if your backend expects it
+    content: JSON.stringify(eventObj)             // <-- string, not object
+  };
 
   const res = await fetch(url, {
     method: "POST",
