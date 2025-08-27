@@ -2,20 +2,20 @@
 export const handler = async (event) => {
   const base = (process.env.HBUK_API || "").replace(/\/+$/, "");
   const token = (process.env.HBUK_TOKEN || "").trim();
-  const path = "/api/commit"; // we confirmed this is the working route
+  const path = "/api/commit";
 
   if (!base || !token) {
     console.error("[CONFIG] Missing HBUK_API or HBUK_TOKEN");
     return { statusCode: 500, body: "config_error" };
   }
 
-  // Build event from Netlify form payload
-  let payload;
+  let content;
   try {
-    const body = JSON.parse(event.body || "{}");
-    const form = body?.payload?.data || {};
-    const meta = body?.payload?.metadata || {};
-    payload = {
+    const { payload = {} } = JSON.parse(event.body || "{}");
+    const form = payload.data || {};
+    const meta = payload.metadata || {};
+
+    content = {
       event: "lead_signup",
       rule: "netlify_form_v1",
       result: "ok",
@@ -26,9 +26,9 @@ export const handler = async (event) => {
         use_case: form.use_case || "",
         notes: form.notes || "",
       },
-      validation: { source: "netlify_form", form_name: body?.payload?.form_name || "beta", verified: true },
+      validation: { source: "netlify_form", form_name: payload.form_name || "beta", verified: true },
       timestamp_utc: new Date().toISOString(),
-      provenance: { site: "safesound.ai", form: "beta", ip: meta?.ip || "", user_agent: meta?.user_agent || "" },
+      provenance: { site: "safesound.ai", form: "beta", ip: meta.ip || "", user_agent: meta.user_agent || "" },
       data_rights: { mode: "utility", allowed_train_targets: [], export_ok: false, retention_days: 365 },
       evidence: []
     };
@@ -46,7 +46,10 @@ export const handler = async (event) => {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ 
+        device_id: "website-netlify-01",
+        content 
+      })
     });
 
     if (!res.ok) {
