@@ -8,35 +8,41 @@ export const handler = async (event) => {
     return { statusCode: 500, body: "config_error" };
   }
 
-  // Candidate endpoints (first 2xx wins)
+  // 0) Connectivity check
+  try {
+    const h = await fetch(`${base}/api/health`, { method: "GET" });
+    console.log("[HEALTH]", h.status);
+  } catch (e) {
+    console.error("[HEALTH] failed", e?.message || e);
+  }
+
+  // 1) Try common POST paths (first 2xx wins)
   const candidates = [
-    process.env.HBUK_EVENTS_PATH,  // optional override from env
-    "/api/events",
+    process.env.HBUK_EVENTS_PATH,       // explicit override
     "/api/v1/events",
-    "/api/commit",
+    "/api/events",
+    "/api/v1/event",
+    "/api/event",
     "/api/v1/commit",
+    "/api/commit",
     "/events",
+    "/event",
     "/commit",
   ].filter(Boolean);
 
+  // 2) Build event body
   let body;
   try {
     const parsed = JSON.parse(event.body || "{}");
     const payload = parsed?.payload || {};
     const data = payload?.data || {};
     const meta = payload?.metadata || {};
-
     body = {
       event: "lead_signup",
       rule: "netlify_form_v1",
       result: "ok",
       subject: "beta_waitlist",
-      context: {
-        name: data.name || "",
-        email: data.email || "",
-        use_case: data.use_case || "",
-        notes: data.notes || "",
-      },
+      context: { name: data.name || "", email: data.email || "", use_case: data.use_case || "", notes: data.notes || "" },
       validation: { source: "netlify_form", form_name: payload?.form_name || "beta", verified: true },
       timestamp_utc: new Date().toISOString(),
       provenance: { site: "safesound.ai", form: "beta", ip: meta?.ip || "", user_agent: meta?.user_agent || "" },
@@ -53,7 +59,7 @@ export const handler = async (event) => {
     try {
       const res = await fetch(url, {
         method: "POST",
-        headers: { "Authorization": token, "Content-Type": "application/json" },
+        headers: { "Authorization": token, "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify(body),
       });
       if (res.ok) {
@@ -61,7 +67,7 @@ export const handler = async (event) => {
         return { statusCode: 200, body: "ok" };
       }
       const text = await res.text();
-      console.warn("[HBUK] try", url, "→", res.status, text.slice(0, 160));
+      console.warn("[HBUK]", "try", url, "→", res.status, (text || "").slice(0, 160));
     } catch (e) {
       console.warn("[HBUK] fetch error", url, e?.message || e);
     }
