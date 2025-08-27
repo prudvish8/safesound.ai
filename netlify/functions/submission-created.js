@@ -2,77 +2,63 @@
 export const handler = async (event) => {
   const base = (process.env.HBUK_API || "").replace(/\/+$/, "");
   const token = (process.env.HBUK_TOKEN || "").trim();
+  const path = "/api/commit"; // we confirmed this is the working route
 
   if (!base || !token) {
     console.error("[CONFIG] Missing HBUK_API or HBUK_TOKEN");
     return { statusCode: 500, body: "config_error" };
   }
 
-  // 0) Connectivity check
+  // Build event from Netlify form payload
+  let payload;
   try {
-    const h = await fetch(`${base}/api/health`, { method: "GET" });
-    console.log("[HEALTH]", h.status);
-  } catch (e) {
-    console.error("[HEALTH] failed", e?.message || e);
-  }
-
-  // 1) Try common POST paths (first 2xx wins)
-  const candidates = [
-    process.env.HBUK_EVENTS_PATH,       // explicit override
-    "/api/v1/events",
-    "/api/events",
-    "/api/v1/event",
-    "/api/event",
-    "/api/v1/commit",
-    "/api/commit",
-    "/events",
-    "/event",
-    "/commit",
-  ].filter(Boolean);
-
-  // 2) Build event body
-  let body;
-  try {
-    const parsed = JSON.parse(event.body || "{}");
-    const payload = parsed?.payload || {};
-    const data = payload?.data || {};
-    const meta = payload?.metadata || {};
-    body = {
+    const body = JSON.parse(event.body || "{}");
+    const form = body?.payload?.data || {};
+    const meta = body?.payload?.metadata || {};
+    payload = {
       event: "lead_signup",
       rule: "netlify_form_v1",
       result: "ok",
       subject: "beta_waitlist",
-      context: { name: data.name || "", email: data.email || "", use_case: data.use_case || "", notes: data.notes || "" },
-      validation: { source: "netlify_form", form_name: payload?.form_name || "beta", verified: true },
+      context: {
+        name: form.name || "",
+        email: form.email || "",
+        use_case: form.use_case || "",
+        notes: form.notes || "",
+      },
+      validation: { source: "netlify_form", form_name: body?.payload?.form_name || "beta", verified: true },
       timestamp_utc: new Date().toISOString(),
       provenance: { site: "safesound.ai", form: "beta", ip: meta?.ip || "", user_agent: meta?.user_agent || "" },
       data_rights: { mode: "utility", allowed_train_targets: [], export_ok: false, retention_days: 365 },
-      evidence: [],
+      evidence: []
     };
   } catch (e) {
     console.error("[PARSE]", e);
     return { statusCode: 500, body: "parse_error" };
   }
 
-  for (const path of candidates) {
-    const url = `${base}${path}`;
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Authorization": token, "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (res.ok) {
-        console.log("[HBUK] ok via", url);
-        return { statusCode: 200, body: "ok" };
-      }
-      const text = await res.text();
-      console.warn("[HBUK]", "try", url, "→", res.status, (text || "").slice(0, 160));
-    } catch (e) {
-      console.warn("[HBUK] fetch error", url, e?.message || e);
-    }
-  }
+  const url = `${base}${path}`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
 
-  console.error("[HBUK] all paths failed");
-  return { statusCode: 500, body: "hubk_error" };
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("[HBUK] non-2xx:", res.status, text);
+      return { statusCode: 500, body: "hubk_error" };
+    }
+
+    console.log("[HBUK] ok via", url);
+    return { statusCode: 200, body: "ok" };
+  } catch (e) {
+    console.error("[FETCH]", e?.message || e);
+    return { statusCode: 500, body: "net_error" };
+  }
 };
