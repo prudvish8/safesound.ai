@@ -342,3 +342,113 @@ ul.tight > li { margin:6px 0 }
 
 /* No accidental italics anywhere */
 em, i { font-style: normal; }
+
+/* === Dragonfly palette (site-wide overrides) === */
+:root{
+  /* Raw palette */
+  --df-yg: #C5D040;           /* bright yellow-green (body) */
+  --df-eye-blue: #96B4C4;     /* eye blue-gray */
+  --df-eye-pink: #E0C0CC;     /* eye pink iridescence */
+  --df-deep: #1E3B5D;         /* deep blue (legs/body) */
+  --df-black: #191919;        /* detail contrast */
+  --df-white: #FFFFFF;        /* droplets highlight */
+  --df-hair: #F3F3E8;         /* pale fuzz */
+
+  /* App tokens (built from palette) */
+  --bg: radial-gradient(1200px 600px at 15% -10%, rgba(224,192,204,.18) 0%, rgba(150,180,196,.10) 25%, transparent 55%),
+        radial-gradient(1200px 800px at 95% 15%, rgba(197,208,64,.10) 0%, transparent 55%),
+        linear-gradient(180deg, #0B1421, #0A0F17 55%, #0A0E15);
+  --text: #E8F1F6;
+  --muted: rgba(232,241,246,.72);
+
+  --link: #A7C1D0;            /* eye blue */
+  --link-hover: #E0C0CC;      /* pink tint */
+  --accent: #C5D040;          /* yellow-green */
+  --accent-ink: #111;
+
+  --panel: rgba(30,59,93,.35);         /* deep-blue glass */
+  --panel-strong: rgba(30,59,93,.55);
+  --line: rgba(255,255,255,.08);       /* soft border */
+  --ring: rgba(197,208,64,.55);        /* focus ring */
+  --glow: 0 0 0 3px rgba(197,208,64,.25), 0 4px 18px rgba(150,180,196,.25);
+}
+
+/* Base */
+html, body{ background: var(--bg); color: var(--text); }
+i, em { font-style: normal; }  /* no accidental italics */
+
+/* Headings get a subtle accent underline */
+h1, h2, h3{ letter-spacing:.2px; }
+h1::after, h2::after{
+  content:""; display:block; width:64px; height:3px;
+  background: linear-gradient(90deg, var(--accent), rgba(197,208,64,0));
+  border-radius:2px; margin-top:10px;
+}
+
+/* Links with soft iridescence */
+a{ color: var(--link); text-decoration: none; }
+a:hover{ color: var(--link-hover); text-decoration: underline; }
+
+/* Cards */
+.card{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.25);
+}
+
+/* Buttons */
+.button, .btn, .btn-primary{
+  background: linear-gradient(180deg, rgba(30,59,93,.85), rgba(30,59,93,.65));
+  border: 1px solid var(--line);
+  color: #EAF2F6; padding: 10px 16px; border-radius: 12px; font-weight: 600;
+}
+.button:hover, .btn:hover, .btn-primary:hover{
+  border-color: var(--accent); box-shadow: var(--glow); transform: translateY(-1px);
+}
+.button:focus, .btn:focus, .btn-primary:focus{ outline: none; box-shadow: var(--glow); }
+
+/* Pills / badges */
+.badge, .pill{
+  background: linear-gradient(180deg, rgba(150,180,196,.18), rgba(150,180,196,.10));
+  border: 1px solid var(--line);
+  color: var(--text); border-radius: 999px; padding:6px 10px; font-size:12px;
+}
+
+/* Callouts */
+.callout.info{
+  background: linear-gradient(180deg, rgba(150,180,196,.18), rgba(150,180,196,.08));
+  border-left: 3px solid var(--link);
+}
+.callout.tip{
+  background: linear-gradient(180deg, rgba(197,208,64,.14), rgba(197,208,64,.06));
+  border-left: 3px solid var(--accent);
+}
+
+/* Inputs */
+input, select, textarea{
+  background: var(--panel-strong); color: var(--text);
+  border: 1px solid var(--line); border-radius: 12px;
+}
+input:focus, select:focus, textarea:focus{
+  outline: none; border-color: var(--accent); box-shadow: var(--glow);
+}
+
+/* Contact + Developers from earlier step, colored to palette */
+.contact-card h3, .dev-card h3{ margin:0 0 8px; font-size:18px; }
+.contact-card .email a{ color: var(--text); }
+.contact-card .email a:hover{ color: var(--accent); }
+.contact-card .org{ color: var(--muted); letter-spacing:.35px; text-transform:uppercase; font-size:13.5px; }
+
+/* Layout alignment with the form */
+.beta-grid{ display:grid; gap:24px; align-items:stretch; }
+@media (min-width:980px){ .beta-grid{ grid-template-columns:1.55fr 1fr; } }
+.beta-left>.card{ height:100%; }
+.beta-right{ display:flex; flex-direction:column; gap:14px; height:100%; }
+.dev-card{ flex:1; display:flex; flex-direction:column; }
+.dev-card ul{ margin:6px 0 0 18px; }
+.dev-card .more{ margin-top:auto; }
+
+/* Footer links */
+footer a{ color: var(--link); }
+footer a:hover{ color: var(--link-hover); }
