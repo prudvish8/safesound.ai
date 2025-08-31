@@ -187,3 +187,30 @@ h3{font-size:clamp(18px,2.5vw,22px)}
     text-align: start;
   }
 }
+
+/* 1) Justify only top-level article paragraphs (not nested sections) */
+.prose > p,
+.prose > ul > li {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  line-height: 1.7;
+}
+
+/* 2) In the "privacy modes" cards, use ragged-right and no hyphenation */
+.mode-grid .mode p,
+.mode-grid .mode li {
+  text-align: start;      /* left align */
+  text-justify: auto;
+  hyphens: none;          /* stop auto hyphenation */
+  word-break: normal;
+  overflow-wrap: break-word; /* only break very long words/urls if needed */
+  line-height: 1.65;
+}
+
+/* optional: make the cards breathe a bit more */
+.mode-grid .mode { padding: 20px 22px; }
+
+/* headings stay balanced and never justified */
+.prose h1, .prose h2, .prose h3 { text-wrap: balance; }
+.prose .lead, .callout, .faq summary { text-align: start; hyphens: manual; }
