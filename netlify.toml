@@ -17,7 +17,19 @@ status = 200
 force = true
 
 [[redirects]]
+from = "/blog/"
+to = "/blog.html"
+status = 200
+force = true
+
+[[redirects]]
 from = "/privacy"
+to = "/privacy.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/privacy/"
 to = "/privacy.html"
 status = 200
 force = true
