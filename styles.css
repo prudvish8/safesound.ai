@@ -452,3 +452,65 @@ input:focus, select:focus, textarea:focus{
 /* Footer links */
 footer a{ color: var(--link); }
 footer a:hover{ color: var(--link-hover); }
+
+/* === Beta page layout alignment (two-column, equal height) === */
+
+/* 1) Make the two columns share one row and stretch to equal height */
+.beta-grid{
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;   /* form : right rail */
+  gap: 24px;
+  align-items: stretch;               /* important: both columns same row height */
+}
+
+.beta-grid > *{
+  align-self: stretch;                 /* stretch each child to the grid row's full height */
+}
+
+/* 2) Left column card fills the full row height */
+.beta-left > .card{
+  height: 100%;
+  margin-top: 0;
+}
+
+/* 3) Right column becomes a vertical stack that ALSO fills the full row height */
+.beta-right{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;                        /* <- key: match the grid row height */
+  margin-top: 0;
+}
+
+/* 4) Contact card sits on top with no extra top margin */
+.contact-card{
+  margin: 0;
+}
+
+/* 5) Developers card expands to fill the remainder down to the exact bottom */
+.dev-card{
+  flex: 1 1 auto;                      /* grow to take remaining height */
+  display: flex;
+  flex-direction: column;
+}
+
+.dev-card .more{
+  margin-top: auto;                    /* keeps "Read: ..." pinned to the bottom */
+}
+
+/* 6) Make the organization line visible and tidy */
+.contact-card .org{
+  opacity: 1;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .35px;
+  font-size: 13.5px;
+  margin-top: 6px;
+}
+
+/* 7) Remove any stray top margins that could nudge edges out of line */
+.beta-left .card h3:first-child,
+.contact-card h3:first-child,
+.dev-card h3:first-child{
+  margin-top: 0;
+}
