@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SafeSound Blog · The HBUK × Saifcam ecosystem</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Header copied from index, with Vision→Blog and no extra nav buttons -->
+  <header class="site-header">
+    <nav class="container">
+      <a href="/" class="brand">SafeSound.ai</a>
+      <ul class="nav">
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/privacy.html">Data Rights</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h1>Introducing the HBUK and Saifcam ecosystem</h1>
+      <p class="lead">How immutable logs, edge vision, and human data rights fit together.</p>
+
+      <article class="article">
+        <h2>Why SafeSound</h2>
+        <p>SafeSound is about turning real life into structured, verifiable records that you control. Saifcam captures what happens around you. HBUK anchors those events in an immutable truth book, so the record is tamper-evident and can be trusted later.</p>
+
+        <h2>Products working together</h2>
+        <p><strong>Saifcam</strong> handles the vision input. The first version uses hosted Gemini Flash for short clips and structured summaries; over time we move toward compact on-device models for privacy and speed.</p>
+        <p><strong>HBUK</strong> is the append-only log. Each entry is hashed, signed, and included in a daily anchor so anyone can verify nothing changed after the fact.</p>
+
+        <h2>Use cases</h2>
+        <ul>
+          <li>Hygiene and safety checks in kitchens and labs</li>
+          <li>Ingredient and tool traceability (QR, OCR, freshness cues)</li>
+          <li>Lifestyle coaching summaries captured as high-fidelity notes</li>
+        </ul>
+
+        <h2>Privacy modes</h2>
+        <p><strong>Private by default</strong>: recordings and summaries stay with you unless you choose to share.</p>
+        <p><strong>Device-only processing</strong>: as edge models arrive, more analysis runs on your hardware with no cloud copy.</p>
+        <p><strong>Your call on models</strong>: use a hosted LLM, a small local model, or no model at all—just the immutable log.</p>
+
+        <h2>Why immutability matters</h2>
+        <p>When a log is append-only and cryptographically anchored, trust doesn't come from a platform promise—it comes from math. That is the core of HBUK.</p>
+
+        <h2>What's next</h2>
+        <p>Start with five-minute clips and structured events. Then extend duration, add edge models, and keep the same truth-grade foundation.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 SafeSound.ai</p>
+    </div>
+  </footer>
+</body>
+</html>
