@@ -33,9 +33,13 @@
   <!-- Marked for Markdown rendering (client-side, zero build) -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    // Utility: get ?post=slug
-    const params = new URLSearchParams(location.search);
-    const slug = params.get('post');
+    // Get slug from either ?post=… or /blog/:slug
+    function getSlug() {
+      const qs = new URLSearchParams(location.search).get('post');
+      if (qs) return qs;
+      const m = location.pathname.match(/^\/blog\/([^\/?#]+)\/?$/);
+      return m ? m[1] : null;
+    }
 
     async function loadIndex() {
       const res = await fetch('/posts/posts.json', { cache: 'no-store' });
@@ -48,7 +52,6 @@
       const postEl = document.getElementById('post');
       postEl.hidden = true;
       list.hidden = false;
-
       list.innerHTML = `
         <h1>Blog</h1>
         ${items.map(p => `
@@ -66,11 +69,7 @@
       const list = document.getElementById('list');
       const postEl = document.getElementById('post');
       const meta = items.find(p => p.slug === slug);
-
-      if (!meta) {
-        renderList(items);
-        return;
-      }
+      if (!meta) return renderList(items);
 
       const res = await fetch(`/posts/${slug}.md`, { cache: 'no-store' });
       const md = await res.text();
@@ -88,6 +87,7 @@
     }
 
     loadIndex().then(items => {
+      const slug = getSlug();
       if (slug) renderPost(items, slug);
       else renderList(items);
     }).catch(err => {
