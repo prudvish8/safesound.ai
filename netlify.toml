@@ -22,6 +22,13 @@ to = "/blog.html"
 status = 200
 force = true
 
+# Blog pretty URLs: /blog/slug -> /blog.html?post=slug
+[[redirects]]
+from = "/blog/:slug"
+to = "/blog.html?post=:slug"
+status = 200
+force = true
+
 [[redirects]]
 from = "/privacy"
 to = "/privacy.html"
