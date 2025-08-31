@@ -453,64 +453,34 @@ input:focus, select:focus, textarea:focus{
 footer a{ color: var(--link); }
 footer a:hover{ color: var(--link-hover); }
 
-/* === Beta page layout alignment (two-column, equal height) === */
-
-/* 1) Make the two columns share one row and stretch to equal height */
+/* Equal-height two-column layout */
 .beta-grid{
   display: grid;
-  grid-template-columns: 1.6fr 1fr;   /* form : right rail */
+  grid-template-columns: 1.6fr 1fr;  /* left form : right rail */
   gap: 24px;
-  align-items: stretch;               /* important: both columns same row height */
+  align-items: stretch;              /* both columns share the row height */
 }
+.beta-left > .card{ height: 100%; }  /* form fills full height */
 
-.beta-grid > *{
-  align-self: stretch;                 /* stretch each child to the grid row's full height */
-}
-
-/* 2) Left column card fills the full row height */
-.beta-left > .card{
-  height: 100%;
-  margin-top: 0;
-}
-
-/* 3) Right column becomes a vertical stack that ALSO fills the full row height */
 .beta-right{
   display: flex;
   flex-direction: column;
   gap: 14px;
-  height: 100%;                        /* <- key: match the grid row height */
-  margin-top: 0;
+  height: 100%;                      /* right rail equals left column height */
 }
-
-/* 4) Contact card sits on top with no extra top margin */
-.contact-card{
-  margin: 0;
-}
-
-/* 5) Developers card expands to fill the remainder down to the exact bottom */
+.contact-card{ margin: 0; }          /* no extra top margin */
 .dev-card{
-  flex: 1 1 auto;                      /* grow to take remaining height */
+  flex: 1 1 auto;                    /* grow to fill down to the bottom */
   display: flex;
   flex-direction: column;
 }
+.dev-card .more{ margin-top: auto; } /* pin "Read:" to the bottom */
 
-.dev-card .more{
-  margin-top: auto;                    /* keeps "Read: ..." pinned to the bottom */
-}
-
-/* 6) Make the organization line visible and tidy */
+/* Make the org line visible */
 .contact-card .org{
   opacity: 1;
-  color: var(--muted);
+  color: rgba(255,255,255,.88);
   text-transform: uppercase;
   letter-spacing: .35px;
   font-size: 13.5px;
-  margin-top: 6px;
-}
-
-/* 7) Remove any stray top margins that could nudge edges out of line */
-.beta-left .card h3:first-child,
-.contact-card h3:first-child,
-.dev-card h3:first-child{
-  margin-top: 0;
 }
