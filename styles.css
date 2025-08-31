@@ -149,3 +149,41 @@ h3{font-size:clamp(18px,2.5vw,22px)}
   margin:10px 0;
 }
 .faq summary{cursor:pointer;font-weight:600}
+
+/* Blog readability polish */
+.prose {
+  /* keep paragraphs a consistent measure */
+  max-width: 70ch;           /* ~70 characters per line */
+}
+
+/* fully-justify body text */
+.prose p,
+.prose li {
+  text-align: justify;
+  text-justify: inter-word;  /* better spacing between words */
+  hyphens: auto;             /* enable hyphenation */
+  -webkit-hyphens: auto;     /* Safari */
+  line-height: 1.7;
+}
+
+/* don't justify headings or special blocks */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose .lead,
+.prose blockquote,
+.prose .callout {
+  text-align: start;
+  hyphens: manual;
+}
+
+/* nicer heading breaks */
+.prose h1, .prose h2, .prose h3 { text-wrap: balance; }
+
+/* on small screens, drop justification to avoid odd spacing */
+@media (max-width: 520px) {
+  .prose p,
+  .prose li {
+    text-align: start;
+  }
+}
