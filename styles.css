@@ -286,76 +286,59 @@ ul.tight > li { margin:6px 0 }
 /* Blog mode cards keep clean lines */
 .mode p, .mode li { hyphens:none; word-break:normal }
 
-/* ===== Beta section layout ===== */
+/* ===== Equal-height layout for form + right column ===== */
 .beta-grid{
   display:grid;
   gap:24px;
-  align-items:start;
+  align-items:stretch; /* both columns same row height */
 }
 @media (min-width: 980px){
   .beta-grid{ grid-template-columns: 1.55fr 1fr; }
 }
 
-.beta-left > .card{ /* your existing form card already looks good */ }
+/* Left column: ensure the form card stretches to full row height */
+.beta-left > .card{ height:100%; }
 
-/* Right column cards */
+/* Right column becomes a vertical stack that fills the same height */
+.beta-right{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  height:100%;
+  position:static; /* override any sticky from earlier */
+}
+
+/* Card styling (keeps your dragonfly palette) */
 .beta-right .card{
+  position:relative;
   background: linear-gradient(180deg, rgba(111,210,242,.06), rgba(134,224,216,.04)) , var(--panel);
   border:1px solid var(--line);
   border-radius:14px;
   box-shadow: 0 10px 26px rgba(0,0,0,.25);
-  padding:18px 18px 16px;
+  padding:18px;
 }
 
-.contact-card{
-  padding:16px 18px 14px;
+/* Contact card typography */
+.contact-card h3{ margin:0 0 6px; font-size:18px; letter-spacing:.2px; }
+.contact-card .email{
+  margin:6px 0 6px;
+  font-weight:600;
+  font-size:16px;
 }
-.contact-card h3,
-.dev-card h3{
-  margin:0 0 8px;
-  font-size:18px;
-  letter-spacing:.2px;
-}
-.contact-card .muted{
-  color:var(--muted);
-  margin:0 0 2px;
-  font-size:13px;
-}
-.contact-card .legal{
-  color:var(--muted);
-  margin:8px 0 0;
-  font-size:12px;
+.contact-card .org{
+  margin:2px 0 0;
+  color: rgba(255,255,255,.88);   /* visible (not muted) */
+  font-size:13.5px;
+  letter-spacing:.35px;
+  text-transform:uppercase;
 }
 
-.dev-card{ margin-top:14px; }
+/* Developers card fills the remaining space so its bottom aligns with the form */
+.dev-card{ flex:1; display:flex; flex-direction:column; }
+.dev-card h3{ margin:0 0 8px; font-size:18px; }
 .dev-card ul.tight{ margin:6px 0 0 18px; }
 .dev-card ul.tight li{ margin:6px 0; }
-.dev-card .more{ margin:10px 0 0; }
+.dev-card .more{ margin-top:auto; } /* pushes the 'Read:' line to the bottom */
 
-/* Make right column stick just a bit on tall screens (feels premium) */
-@media (min-width: 1200px){
-  .beta-right{ position:sticky; top:92px; }
-}
-
-/* Keep everything non-italic (you asked for this globally) */
+/* No accidental italics anywhere */
 em, i { font-style: normal; }
-
-/* Optional: subtle card border glow matching dragonfly */
-.beta-right .card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:14px;
-  pointer-events:none;
-  background:linear-gradient(135deg, rgba(111,210,242,.35), rgba(134,224,216,.25));
-  mask:
-    linear-gradient(#000 0 0) content-box, 
-    linear-gradient(#000 0 0);
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box, 
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding:1px; /* gradient border */
-  opacity:.25;
-}
