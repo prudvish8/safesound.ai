@@ -9,13 +9,20 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
-# Keep privacy as a direct page too (optional, but tidy)
+# Pretty URLs that serve static files
+[[redirects]]
+from = "/blog"
+to = "/blog.html"
+status = 200
+force = true
+
 [[redirects]]
 from = "/privacy"
 to = "/privacy.html"
 status = 200
+force = true
 
-# Existing fallback
+# (keep this last)
 [[redirects]]
 from = "/*"
 to = "/index.html"
