@@ -64,10 +64,10 @@
   <!-- removed the two CTAs here -->
 
   <div class="tag-row">
-    <span class="tag">Edge-first</span>
-    <span class="tag">Immutable logs</span>
-    <span class="tag">Gemini-powered v0</span>
-    <span class="tag">Privacy by default</span>
+    <span class="chip">Edge-first</span>
+    <span class="chip">Immutable logs</span>
+    <span class="chip">Gemini-powered v0</span>
+    <span class="chip">Privacy by default</span>
   </div>
 </section>
 
@@ -164,51 +164,61 @@
 </section>
 
 <section id="contact" class="section section--alt">
-  <div class="container two">
-    <div>
-      <h2>Join the private beta</h2>
-      <p>Tell us about your kitchen, team, or home setup. We'll reply from <strong>hello@safesound.ai</strong>.</p>
+  <div class="container" style="padding:40px 0 90px">
+    <div class="grid-2">
+      <div>
+        <h2>Join the private beta</h2>
+        <p>Tell us about your kitchen, team, or home setup. We'll reply from <strong>hello@safesound.ai</strong>.</p>
 
-      <!-- Netlify form -->
-      <form name="beta" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form card">
-        <input type="hidden" name="form-name" value="beta">
-        <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
+        <!-- Netlify form -->
+        <form name="beta" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form card">
+          <input type="hidden" name="form-name" value="beta">
+          <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
 
-        <label>Full name
-          <input type="text" name="name" required />
-        </label>
+          <label>Full name
+            <input type="text" name="name" required />
+          </label>
 
-        <label>Email
-          <input type="email" name="email" required />
-        </label>
+          <label>Email
+            <input type="email" name="email" required />
+          </label>
 
-        <label>Use case
-          <select name="use_case">
-            <option>Restaurant / Kitchen</option>
-            <option>Home / Lifestyle</option>
-            <option>Team / Workplace</option>
-            <option>Other</option>
-          </select>
-        </label>
+          <label>Use case
+            <select name="use_case">
+              <option>Restaurant / Kitchen</option>
+              <option>Home / Lifestyle</option>
+              <option>Team / Workplace</option>
+              <option>Other</option>
+            </select>
+          </label>
 
-        <label>Anything else?
-          <textarea name="notes" rows="4" placeholder="What problem do you want to solve?"></textarea>
-        </label>
+          <label>Anything else?
+            <textarea name="notes" rows="4" placeholder="What problem do you want to solve?"></textarea>
+          </label>
 
-        <button class="btn btn--primary" type="submit">Request Access</button>
-      </form>
-    </div>
+          <button class="btn btn--primary" type="submit">Request Access</button>
+        </form>
+      </div>
 
-    <div class="card">
-      <h3>Contact</h3>
-      <p><strong>Email:</strong> <a href="mailto:hello@safesound.ai">hello@safesound.ai</a></p>
-      <h3 style="margin-top:1rem">For developers</h3>
-      <ul>
-        <li>Edge ingest: Saifcam (Python)</li>
-        <li>Truth store: HBUK (Node/Express + Mongo)</li>
-        <li>API: /events, /exports, /train (rights-aware)</li>
-      </ul>
-      <p class="dim sm">SAFESOUND AI LLC • 2025</p>
+      <!-- Right column: compact cards -->
+      <aside class="card card--compact">
+        <h3 style="margin:0 0 8px">Contact</h3>
+        <p style="margin:0 0 8px">Email: <a href="mailto:hello@safesound.ai">hello@safesound.ai</a></p>
+        <p style="color:var(--muted);margin:0">SafeSound AI LLC · 2025</p>
+      </aside>
+
+      <aside class="card card--tight" style="margin-top:12px">
+        <h3 style="margin:0 0 8px">For developers</h3>
+        <ul class="tight" style="margin:0 0 6px 18px">
+          <li>Edge ingest: <strong>Saifcam</strong> (Python)</li>
+          <li>Truth store: <strong>HBUK</strong> (Node, Express, Mongo)</li>
+          <li>API: <code>/events</code>, <code>/exports</code>, <code>/train</code> with rights</li>
+          <li>Proofs: per-entry digests and daily anchors</li>
+        </ul>
+        <p style="margin:6px 0 0">
+          Read: <a href="/blog/hbuk-saifcam-ecosystem.html">HBUK and Saifcam ecosystem</a>
+        </p>
+      </aside>
     </div>
   </div>
 </section>

@@ -1,16 +1,33 @@
+/* ==== Dragonfly theme (blues + teals, high contrast) ==== */
 :root{
-  --bg:#07111f;
-  --panel:#0e1c30;
-  --ink:#e9f1ff;
-  --ink-dim:#a5b4c7;
-  --accent:#7dd3fc; /* light sky */
-  --accent-2:#60a5fa; /* blue */
+  --bg-900:#0b1220;      /* midnight navy */
+  --bg-800:#0f1a2b;
+  --panel:#0f1f36;       /* deep slate */
+  --line:#20324f;        /* soft border */
+  --text-100:#e9f7fb;    /* ice */
+  --text-300:#b8d8e3;    /* muted */
+  --muted:#8fb3c0;
+
+  --brand:#6fd2f2;       /* cyan primary */
+  --brand-2:#86e0d8;     /* teal secondary */
+  --brand-3:#c9f3ff;     /* light highlight */
+  
+  --accent:#7dd3fc; /* light sky - keeping for compatibility */
+  --accent-2:#60a5fa; /* blue - keeping for compatibility */
   --ok:#34d399;
   --radius:16px;
-  --shadow:0 10px 30px rgba(0,0,0,.25);
+  --shadow:0 12px 30px rgba(0,0,0,.25);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+html, body {
+  margin:0;padding:0;
+  background:
+    radial-gradient(1200px 600px at 18% -10%, rgba(111,210,242,.10), transparent 60%),
+    radial-gradient(900px 500px  at 85% 0%,   rgba(134,224,216,.08), transparent 55%),
+    var(--bg-900);
+  color: var(--text-100);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
 a{color:var(--accent)}
 .container{max-width:1100px;margin:0 auto;padding:0 20px}
 .section{padding:72px 0}
@@ -220,3 +237,51 @@ em, i { font-style: normal; }
 
 /* Keep hero and body text crisp */
 .lead, .sublead, .prose p { font-style: normal; }
+
+/* Links and focus */
+a{ color:var(--brand); text-decoration:none }
+a:hover{ color:var(--brand-3); text-decoration:underline }
+:focus-visible{ outline:2px solid var(--brand-2); outline-offset:2px }
+
+/* Cards */
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+  padding:22px;
+}
+
+/* Chips (the small tags under the hero) */
+.chip{
+  display:inline-block;
+  background:rgba(111,210,242,.10);
+  border:1px solid rgba(111,210,242,.35);
+  color:var(--brand-3);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:13px;
+}
+
+/* Optional hero accent on the brand name */
+.brand{
+  background:linear-gradient(90deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text; background-clip:text;
+  color:transparent;
+}
+
+/* Grid helper for the footer section with forms/cards */
+.grid-2 { display:grid; gap:18px }
+@media (min-width: 900px){
+  .grid-2{ grid-template-columns: 1.1fr 1.2fr } /* left form, right cards */
+}
+
+/* Compact variants for the right column */
+.card--compact{ padding:18px }
+.card--tight   { padding:16px }
+
+/* Lists in cards */
+ul.tight > li { margin:6px 0 }
+
+/* Blog mode cards keep clean lines */
+.mode p, .mode li { hyphens:none; word-break:normal }
