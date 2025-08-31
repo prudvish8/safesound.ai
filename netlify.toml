@@ -12,20 +12,13 @@
 # Pretty URLs that serve static files
 [[redirects]]
 from = "/blog"
-to = "/blog.html"
+to = "/blog/index.html"
 status = 200
 force = true
 
 [[redirects]]
 from = "/blog/"
-to = "/blog.html"
-status = 200
-force = true
-
-# Blog pretty URLs: /blog/slug -> /blog.html?post=slug
-[[redirects]]
-from = "/blog/:slug"
-to = "/blog.html?post=:slug"
+to = "/blog/index.html"
 status = 200
 force = true
 

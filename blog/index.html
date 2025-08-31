@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog • SafeSound.ai</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .post-card{background:rgba(255,255,255,.04);padding:20px;border-radius:12px;margin:18px 0}
+    .post-card a{color:#8ecaff}
+    .post-date{opacity:.7;margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <header class="container" style="padding:20px 0">
+    <a href="/" class="brand">SafeSound.ai</a>
+    <nav style="float:right">
+      <a href="/blog">Blog</a>
+      <a href="/privacy">Data Rights</a>
+    </nav>
+  </header>
+
+  <main class="container" style="padding:24px 0 80px">
+    <h1>Blog</h1>
+    <div id="list"></div>
+  </main>
+
+  <script>
+    async function main(){
+      const res = await fetch('/blog/posts.json', {cache:'no-store'});
+      const posts = await res.json();
+
+      // newest first
+      posts.sort((a,b) => b.date.localeCompare(a.date));
+
+      const list = document.getElementById('list');
+      list.innerHTML = posts.map(p => `
+        <article class="post-card">
+          <div class="post-date">${new Date(p.date).toLocaleDateString()}</div>
+          <h2><a href="/blog/${p.slug}.html">${p.title}</a></h2>
+          <p class="post-teaser">${p.teaser}</p>
+          <p><a href="/blog/${p.slug}.html">Read more →</a></p>
+        </article>
+      `).join('');
+    }
+    main();
+  </script>
+</body>
+</html>
