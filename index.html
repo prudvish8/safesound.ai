@@ -164,41 +164,31 @@
 </section>
 
 <section id="contact" class="section section--alt">
-  <div class="container" style="padding:40px 0 90px">
+  <div class="container" style="padding:40px 0 100px">
+    <h1>Join the private beta</h1>
+    <p>Tell us about your kitchen, team, or home setup. We'll reply from <a href="mailto:hello@safesound.ai">hello@safesound.ai</a>.</p>
+
     <div class="beta-grid">
-      <!-- LEFT: keep your existing form card here unchanged -->
+      <!-- LEFT: form (tall column) -->
       <div class="beta-left">
-        <h2>Join the private beta</h2>
-        <p>Tell us about your kitchen, team, or home setup. We'll reply from <strong>hello@safesound.ai</strong>.</p>
+        <div class="card">
+          <label>Full name</label>
+          <input type="text" placeholder=""/>
+          <label>Email</label>
+          <input type="email" placeholder=""/>
+          <label>Use case</label>
+          <select>
+            <option>Restaurant / Kitchen</option>
+            <option>Home</option>
+            <option>Lab</option>
+          </select>
+          <label>Anything else?</label>
+          <textarea placeholder="What problem do you want to solve?"></textarea>
 
-        <!-- Netlify form -->
-        <form name="beta" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form card">
-          <input type="hidden" name="form-name" value="beta">
-          <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
-
-          <label>Full name
-            <input type="text" name="name" required />
-          </label>
-
-          <label>Email
-            <input type="email" name="email" required />
-          </label>
-
-          <label>Use case
-            <select name="use_case">
-              <option>Restaurant / Kitchen</option>
-              <option>Home / Lifestyle</option>
-              <option>Team / Workplace</option>
-              <option>Other</option>
-            </select>
-          </label>
-
-          <label>Anything else?
-            <textarea name="notes" rows="4" placeholder="What problem do you want to solve?"></textarea>
-          </label>
-
-          <button class="btn btn--primary" type="submit">Request Access</button>
-        </form>
+          <div class="actions">
+            <button class="btn">Request Access</button>
+          </div>
+        </div>
       </div>
 
       <!-- RIGHT: compact Contact + Developers cards -->

@@ -453,34 +453,47 @@ input:focus, select:focus, textarea:focus{
 footer a{ color: var(--link); }
 footer a:hover{ color: var(--link-hover); }
 
-/* Equal-height two-column layout */
+/* two-column grid with equal heights */
 .beta-grid{
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;  /* left form : right rail */
-  gap: 24px;
-  align-items: stretch;              /* both columns share the row height */
+  display:grid;
+  grid-template-columns: 1.65fr 1fr;   /* left wider than right */
+  gap:24px;
+  align-items:stretch;                 /* both columns share the same row height */
 }
-.beta-left > .card{ height: 100%; }  /* form fills full height */
 
+/* left card fills the row height */
+.beta-left > .card{ height:100%; display:flex; flex-direction:column; }
+.beta-left .actions{ margin-top:auto; }  /* keep button at bottom */
+
+/* right rail matches left height and stacks two cards */
 .beta-right{
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  height: 100%;                      /* right rail equals left column height */
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  gap:14px;
 }
-.contact-card{ margin: 0; }          /* no extra top margin */
-.dev-card{
-  flex: 1 1 auto;                    /* grow to fill down to the bottom */
-  display: flex;
-  flex-direction: column;
-}
-.dev-card .more{ margin-top: auto; } /* pin "Read:" to the bottom */
 
-/* Make the org line visible */
-.contact-card .org{
-  opacity: 1;
-  color: rgba(255,255,255,.88);
-  text-transform: uppercase;
-  letter-spacing: .35px;
-  font-size: 13.5px;
+/* contact is fixed height; dev grows to fill remainder */
+.contact-card{ flex:0 0 auto; margin:0; }
+.dev-card{
+  flex:1 1 auto;                       /* stretch to bottom */
+  display:flex; flex-direction:column;
+}
+.dev-card .more{ margin-top:auto; }     /* pin "Read" to the bottom */
+
+/* small visual tweaks so it looks tight */
+.card h3{ margin:0 0 8px; }
+.card .email{ font-weight:600; margin:4px 0 2px; }
+.card .org{
+  opacity:.9; letter-spacing:.35px; text-transform:uppercase;
+  font-size:13.5px; margin:0;
+}
+ul.tight{ margin:8px 0 0; padding-left:18px; }
+ul.tight li{ margin:6px 0; }
+
+/* responsive: stack on small screens */
+@media (max-width: 900px){
+  .beta-grid{ grid-template-columns: 1fr; }
+  .beta-right{ height:auto; }
+  .dev-card{ flex:0 0 auto; }
 }
