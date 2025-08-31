@@ -165,8 +165,9 @@
 
 <section id="contact" class="section section--alt">
   <div class="container" style="padding:40px 0 90px">
-    <div class="grid-2">
-      <div>
+    <div class="beta-grid">
+      <!-- LEFT: keep your existing form card here unchanged -->
+      <div class="beta-left">
         <h2>Join the private beta</h2>
         <p>Tell us about your kitchen, team, or home setup. We'll reply from <strong>hello@safesound.ai</strong>.</p>
 
@@ -200,25 +201,26 @@
         </form>
       </div>
 
-      <!-- Right column: compact cards -->
-      <aside class="card card--compact">
-        <h3 style="margin:0 0 8px">Contact</h3>
-        <p style="margin:0 0 8px">Email: <a href="mailto:hello@safesound.ai">hello@safesound.ai</a></p>
-        <p style="color:var(--muted);margin:0">SafeSound AI LLC · 2025</p>
-      </aside>
+      <!-- RIGHT: compact Contact + Developers cards -->
+      <div class="beta-right">
+        <aside class="card contact-card">
+          <h3>Contact</h3>
+          <p class="muted">Email</p>
+          <p><a href="mailto:hello@safesound.ai">hello@safesound.ai</a></p>
+          <p class="legal">SafeSound AI LLC • 2025</p>
+        </aside>
 
-      <aside class="card card--tight" style="margin-top:12px">
-        <h3 style="margin:0 0 8px">For developers</h3>
-        <ul class="tight" style="margin:0 0 6px 18px">
-          <li>Edge ingest: <strong>Saifcam</strong> (Python)</li>
-          <li>Truth store: <strong>HBUK</strong> (Node, Express, Mongo)</li>
-          <li>API: <code>/events</code>, <code>/exports</code>, <code>/train</code> with rights</li>
-          <li>Proofs: per-entry digests and daily anchors</li>
-        </ul>
-        <p style="margin:6px 0 0">
-          Read: <a href="/blog/hbuk-saifcam-ecosystem.html">HBUK and Saifcam ecosystem</a>
-        </p>
-      </aside>
+        <aside class="card dev-card">
+          <h3>For developers</h3>
+          <ul class="tight">
+            <li>Edge ingest: <strong>Saifcam</strong> (Python)</li>
+            <li>Truth store: <strong>HBUK</strong> (Node, Express, Mongo)</li>
+            <li>API: <code>/events</code>, <code>/exports</code>, <code>/train</code> (rights-aware)</li>
+            <li>Proofs: per-entry digests & daily anchors</li>
+          </ul>
+          <p class="more">Read: <a href="/blog/hbuk-saifcam-ecosystem.html">HBUK and Saifcam ecosystem</a></p>
+        </aside>
+      </div>
     </div>
   </div>
 </section>
