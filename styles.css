@@ -58,3 +58,9 @@ h3{font-size:clamp(18px,2.5vw,22px)}
   .grid-3{grid-template-columns:1fr}
   .links{display:none}
 }
+
+/* Blog helpers */
+.prose p { line-height: 1.7; margin: 14px 0; }
+.prose h1, .prose h2, .prose h3 { margin-top: 20px; }
+.post h2 a { text-decoration: none; color: var(--ink); }
+.post h2 a:hover { color: var(--accent); }

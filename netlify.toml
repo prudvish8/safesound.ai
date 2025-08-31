@@ -9,17 +9,6 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
-# Serve the blog page directly
-[[redirects]]
-from = "/blog"
-to = "/blog.html"
-status = 200
-
-[[redirects]]
-from = "/blog.html"
-to = "/blog.html"
-status = 200
-
 # Keep privacy as a direct page too (optional, but tidy)
 [[redirects]]
 from = "/privacy"
