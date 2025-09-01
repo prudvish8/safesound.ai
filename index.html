@@ -69,9 +69,19 @@
     <span class="tag">Gemini-powered v0</span>
     <span class="tag">Privacy by default</span>
   </div>
-</section>
+  </section>
 
-<section class="two-col container prose" id="vision">
+  <section class="container" style="margin-top:32px">
+    <h2>Why we're different</h2>
+    <ul class="checklist">
+      <li><strong>Honest by design.</strong> Every event gets a cryptographic receipt so history can't quietly change later.</li>
+      <li><strong>Privacy first.</strong> Pick a data-rights mode (Me only, Private on the edge, License to market) and switch any time.</li>
+      <li><strong>Signal, not surveillance.</strong> We store structured facts, not raw media. Useful, verifiable, and yours to control.</li>
+    </ul>
+    <p><a href="/blog/hbuk-saifcam-ecosystem.html">Read how HBUK and Saifcam fit together →</a></p>
+  </section>
+
+  <section class="two-col container prose" id="vision">
   <div>
     <h2>Our vision</h2>
     <p>We believe people should own their reality data. SafeSound.ai turns what happens in your kitchen, workspace, or home into structured, verifiable events—signed on-device and anchored in HBUK, our immutable truth book. With Saifcam, you decide how your data is used.</p>
@@ -168,34 +178,24 @@
 
         <section class="form-grid">
           <!-- Left: form -->
-          <form class="card form-card" action="#" method="post" novalidate>
-            <label for="name">Full name</label>
-            <input id="name" name="name" type="text" autocomplete="name" />
-
-            <div style="height:12px"></div>
-
-            <label for="email">Email</label>
-            <input id="name" name="email" type="email" autocomplete="email" />
-
-            <div style="height:12px"></div>
-
-            <label for="usecase">Use case</label>
-            <select id="usecase" name="usecase">
+          <form id="beta-form" class="card form-card">
+            <input name="name" type="text" placeholder="Full name" />
+            <input name="email" type="email" placeholder="Email" />
+            <select name="use_case">
               <option>Restaurant / Kitchen</option>
-              <option>Lab / QA</option>
               <option>Home</option>
+              <option>Lab</option>
               <option>Other</option>
             </select>
+            <textarea name="note" placeholder="What problem do you want to solve?" rows="4"></textarea>
 
-            <div style="height:12px"></div>
+            <!-- Honeypot -->
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
 
-            <label for="more">Tell us more</label>
-            <textarea id="more" name="more" rows="4" placeholder="What problem do you want to solve?"></textarea>
+            <button type="submit" id="beta-submit" class="button">Request Access</button>
 
-            <div style="height:16px"></div>
-
-            <button type="submit" class="button">Request Access</button>
-            <div class="form-footnote">We'll only use your email to reply.</div>
+            <!-- Inline feedback area -->
+            <p id="beta-msg" aria-live="polite" style="margin-top:8px"></p>
           </form>
 
           <!-- Right: rail -->
@@ -234,6 +234,58 @@
     </nav>
   </div>
 </footer>
+
+<script>
+  (function () {
+    const form = document.getElementById('beta-form');
+    const btn  = document.getElementById('beta-submit');
+    const msg  = document.getElementById('beta-msg');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault(); // prevent the page navigation (this was causing the 404)
+      msg.textContent = '';
+      btn.disabled = true;
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch('/.netlify/functions/beta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.name || '',
+            email: data.email || '',
+            use_case: data.use_case || '',
+            note: data.note || '',
+            website: data.website || '' // honeypot
+          })
+        });
+
+        const json = await res.json().catch(() => ({}));
+
+        if (!res.ok || !json.ok) {
+          msg.textContent = json?.error || 'Submission failed. Please try again later.';
+          msg.style.color = '#f66';
+          btn.disabled = false;
+          return;
+        }
+
+        // Success — replace the form with a thank you message
+        form.innerHTML = `
+          <div class="card success">
+            <h3>Thanks — you're on the list!</h3>
+            <p>We'll be in touch from <strong>hello@safesound.ai</strong>.</p>
+          </div>`;
+      } catch (err) {
+        msg.textContent = 'Submission failed. Please try again later.';
+        msg.style.color = '#f66';
+        btn.disabled = false;
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>
