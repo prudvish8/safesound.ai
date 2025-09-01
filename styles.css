@@ -612,3 +612,53 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
 /* Bullet polish */
 .card ul{ margin: 8px 0 0; padding-left: 22px; }
 .card li{ margin: 6px 0; }
+
+/* --- Home polish (hero, nav, labels, grid, CTA) --- */
+
+/* make top nav links always readable on the gradient */
+.site-nav a {
+  color: #9eb4c4;           /* blue-gray from the dragonfly eye */
+  opacity: 0.95;
+}
+.site-nav a:hover { opacity: 1; text-decoration: underline; }
+
+/* softer, controlled wrap for the big headline */
+.hero-title {
+  max-width: 18ch;          /* natural two-line wrap on laptops */
+  line-height: 1.06;
+}
+
+/* give the subhead some breathing room */
+.hero-sub {
+  margin-top: 10px;
+  margin-bottom: 18px;
+}
+
+/* label chips should look like labels, not buttons */
+.tags { margin-bottom: 18px; }
+.tag {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.85;
+}
+
+/* align Our vision + v0 card cleanly */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr minmax(340px, 420px);
+  gap: 32px;
+  align-items: start;        /* lock card tops to the heading */
+}
+
+/* consistent bullet look (no trailing periods needed) */
+.prose ul li { list-style: disc; }
+.prose ul li::marker { color: var(--accent, #C5D040); }
+
+/* simple primary CTA */
+.btn { display: inline-block; padding: 10px 16px; border-radius: 10px; font-weight: 600; }
+.btn.primary {
+  background: #1E3B5D;      /* deep blue from the legs */
+  color: #E6F0F6;           /* soft light for contrast */
+  box-shadow: 0 6px 14px rgba(30,59,93,.25);
+}
+.btn.primary:hover { transform: translateY(-1px); }
