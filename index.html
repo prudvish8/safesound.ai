@@ -168,49 +168,61 @@
     <h1>Join the private beta</h1>
     <p>Tell us about your kitchen, team, or home setup. We'll reply from <a href="mailto:hello@safesound.ai">hello@safesound.ai</a>.</p>
 
-    <div class="beta-grid">
-      <!-- LEFT: form (tall column) -->
-      <div class="beta-left">
-        <div class="card">
-          <label>Full name</label>
-          <input type="text" placeholder=""/>
-          <label>Email</label>
-          <input type="email" placeholder=""/>
-          <label>Use case</label>
-          <select>
-            <option>Restaurant / Kitchen</option>
-            <option>Home</option>
-            <option>Lab</option>
-          </select>
-          <label>Anything else?</label>
-          <textarea placeholder="What problem do you want to solve?"></textarea>
+        <section class="form-grid">
+          <!-- Left: form -->
+          <form class="card form-card" action="#" method="post" novalidate>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" autocomplete="name" />
 
-          <div class="actions">
-            <button class="btn">Request Access</button>
-          </div>
-        </div>
-      </div>
+            <div style="height:12px"></div>
 
-      <!-- RIGHT: compact Contact + Developers cards -->
-      <div class="beta-right">
-        <aside class="card contact-card">
-          <h3>Contact</h3>
-          <p class="email"><a href="mailto:hello@safesound.ai">hello@safesound.ai</a></p>
-          <p class="org">SAFESOUND AI LLC • 2025</p>
-        </aside>
+            <label for="email">Email</label>
+            <input id="name" name="email" type="email" autocomplete="email" />
 
-        <aside class="card dev-card">
-          <h3>For developers</h3>
-          <ul class="tight">
-            <li>Edge ingest: <strong>Saifcam</strong> (Python)</li>
-            <li>Truth store: <strong>HBUK</strong> (Node, Express, Mongo)</li>
-            <li>API: <code>/events</code>, <code>/exports</code>, <code>/train</code> (rights-aware)</li>
-            <li>Proofs: per-entry digests & daily anchors</li>
-          </ul>
-          <p class="more">Read: <a href="/blog/hbuk-saifcam-ecosystem.html">HBUK and Saifcam ecosystem</a></p>
-        </aside>
-      </div>
-    </div>
+            <div style="height:12px"></div>
+
+            <label for="usecase">Use case</label>
+            <select id="usecase" name="usecase">
+              <option>Restaurant / Kitchen</option>
+              <option>Lab / QA</option>
+              <option>Home</option>
+              <option>Other</option>
+            </select>
+
+            <div style="height:12px"></div>
+
+            <label for="more">Tell us more</label>
+            <textarea id="more" name="more" rows="4" placeholder="What problem do you want to solve?"></textarea>
+
+            <div style="height:16px"></div>
+
+            <button type="submit" class="button">Request Access</button>
+            <div class="form-footnote">We'll only use your email to reply.</div>
+          </form>
+
+          <!-- Right: rail -->
+          <aside class="rail">
+            <div class="card contact">
+              <div class="kicker">Team</div>
+              <h3 class="headline"><a href="mailto:hello@safesound.ai">hello@safesound.ai</a></h3>
+              <div style="opacity:.85; margin-top:4px;">SAFESOUND AI LLC &bull; 2025</div>
+            </div>
+
+            <div class="card dev">
+              <div class="kicker">Tech</div>
+              <h3>For developers</h3>
+              <ul>
+                <li>Edge ingest: <strong>Saifcam</strong> (Python)</li>
+                <li>Truth store: <strong>HBUK</strong> (Node, Express, Mongo)</li>
+                <li>API: <code>/events</code>, <code>/exports</code>, <code>/train</code> (rights-aware)</li>
+                <li>Proofs: per-entry digests &amp; daily anchors</li>
+              </ul>
+              <p style="margin-top:10px">
+                Read: <a href="/blog/hbuk-saifcam-ecosystem.html">HBUK and Saifcam ecosystem</a>
+              </p>
+            </div>
+          </aside>
+        </section>
   </div>
 </section>
 
