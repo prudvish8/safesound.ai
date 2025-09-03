@@ -178,24 +178,18 @@
 
         <section class="form-grid">
           <!-- Left: form -->
-          <form id="beta-form" class="card form-card">
-            <input name="name" type="text" placeholder="Full name" />
-            <input name="email" type="email" placeholder="Email" />
-            <select name="use_case">
+          <form class="card form-card">
+            <input name="name" type="text" placeholder="Full name" required />
+            <input name="email" type="email" placeholder="Email" required />
+            <select name="usecase">
               <option>Restaurant / Kitchen</option>
               <option>Home</option>
               <option>Lab</option>
               <option>Other</option>
             </select>
-            <textarea name="note" placeholder="What problem do you want to solve?" rows="4"></textarea>
+            <textarea name="notes" placeholder="What problem do you want to solve?" rows="4"></textarea>
 
-            <!-- Honeypot -->
-            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
-
-            <button type="submit" id="beta-submit" class="button">Request Access</button>
-
-            <!-- Inline feedback area -->
-            <p id="beta-msg" aria-live="polite" style="margin-top:8px"></p>
+            <button type="submit" class="button">Request Access</button>
           </form>
 
           <!-- Right: rail -->
@@ -237,51 +231,52 @@
 
 <script>
   (function () {
-    const form = document.getElementById('beta-form');
-    const btn  = document.getElementById('beta-submit');
-    const msg  = document.getElementById('beta-msg');
-
+    const form = document.querySelector("#beta form");
     if (!form) return;
 
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault(); // prevent the page navigation (this was causing the 404)
-      msg.textContent = '';
-      btn.disabled = true;
+    const btn = form.querySelector("button[type=submit]");
+    const notice = document.createElement("div");
+    notice.style.marginTop = "10px";
+    form.appendChild(notice);
 
-      const data = Object.fromEntries(new FormData(form).entries());
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      notice.textContent = "";
+      const orig = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
+
+      const fd = new FormData(form);
+      const body = {
+        name: fd.get("name")?.trim(),
+        email: fd.get("email")?.trim(),
+        useCase: fd.get("usecase") || "",
+        notes: fd.get("notes") || "",
+      };
 
       try {
-        const res = await fetch('/.netlify/functions/beta', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: data.name || '',
-            email: data.email || '',
-            use_case: data.use_case || '',
-            note: data.note || '',
-            website: data.website || '' // honeypot
-          })
+        const resp = await fetch("/.netlify/functions/beta", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
         });
 
-        const json = await res.json().catch(() => ({}));
+        const json = await resp.json().catch(() => ({}));
 
-        if (!res.ok || !json.ok) {
-          msg.textContent = 'Submission failed. Please try again.';
-          msg.style.color = '#f66';
-          btn.disabled = false;
-          return;
+        if (!resp.ok) {
+          notice.style.color = "#ff6b6b";
+          notice.textContent = "Failed to submit. Please try again.";
+        } else {
+          notice.style.color = "#b8ff8b";
+          notice.textContent = "Thanks — you're on the list. We'll email you soon.";
+          form.reset();
         }
-
-        // Success — replace the form with a thank you message
-        form.innerHTML = `
-          <div class="card success">
-            <h3>Thanks—check your email soon.</h3>
-            <p>We'll be in touch from <strong>hello@safesound.ai</strong>.</p>
-          </div>`;
-      } catch (err) {
-        msg.textContent = 'Submission failed. Please try again.';
-        msg.style.color = '#f66';
+      } catch {
+        notice.style.color = "#ff6b6b";
+        notice.textContent = "Network error. Please try again.";
+      } finally {
         btn.disabled = false;
+        btn.textContent = orig;
       }
     });
   })();
