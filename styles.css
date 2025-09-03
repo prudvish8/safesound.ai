@@ -671,7 +671,7 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   letter-spacing: -0.02em;
   line-height: 1.15;
   /* responsive but modest */
-  font-size: clamp(24px, 4.8vw, 40px);
+  font-size: clamp(32px, 6vw, 56px);
   margin: 0 0 12px 0;
 }
 
