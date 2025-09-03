@@ -662,3 +662,27 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   box-shadow: 0 6px 14px rgba(30,59,93,.25);
 }
 .btn.primary:hover { transform: translateY(-1px); }
+
+/* --- Simpler, smaller hero --- */
+.hero { padding-top: 32px; padding-bottom: 24px; }
+
+.hero h1 {
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  /* responsive but modest */
+  font-size: clamp(24px, 4.8vw, 40px);
+  margin: 0 0 12px 0;
+}
+
+.hero .lead {
+  font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.6;
+  opacity: 0.9;
+  max-width: 60ch;
+  margin: 0 0 14px 0;
+}
+
+.badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+        padding: 6px 10px; border-radius: 999px; font-size: 12px; }
