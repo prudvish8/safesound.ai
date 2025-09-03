@@ -686,3 +686,15 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
 .badges { display: flex; gap: 8px; flex-wrap: wrap; }
 .chip { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
         padding: 6px 10px; border-radius: 999px; font-size: 12px; }
+
+/* HBUK link highlight */
+:root { --hbuk: #C5D040; }           /* dragonfly yellow-green */
+a.hbuk-link{
+  color: var(--hbuk);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(197,208,64,.6);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 2px;
+}
+a.hbuk-link:hover{ text-decoration-color: currentColor; filter: brightness(1.08); }

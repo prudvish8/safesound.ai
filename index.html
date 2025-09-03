@@ -267,6 +267,32 @@
   })();
 </script>
 
+<script>
+(() => {
+  const container = document.querySelector('main') || document.body;
+  const walker = document.createTreeWalker(
+    container,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: n => {
+        const p = n.parentElement;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        if (['A','SCRIPT','STYLE','NOSCRIPT'].includes(p.tagName)) return NodeFilter.FILTER_REJECT;
+        return /HBUK/.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    }
+  );
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const span = document.createElement('span');
+    span.innerHTML = node.nodeValue.replace(/HBUK/g,
+      '<a class="hbuk-link" href="https://hbuk.xyz" target="_blank" rel="noopener">HBUK</a>');
+    node.replaceWith(span);
+  });
+})();
+</script>
+
 </body>
 </html>
 <!-- redeploy: trigger -->
