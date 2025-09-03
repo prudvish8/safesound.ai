@@ -266,7 +266,7 @@
         const json = await res.json().catch(() => ({}));
 
         if (!res.ok || !json.ok) {
-          msg.textContent = json?.error || 'Submission failed. Please try again later.';
+          msg.textContent = 'Submission failed. Please try again.';
           msg.style.color = '#f66';
           btn.disabled = false;
           return;
@@ -275,11 +275,11 @@
         // Success — replace the form with a thank you message
         form.innerHTML = `
           <div class="card success">
-            <h3>Thanks — you're on the list!</h3>
+            <h3>Thanks—check your email soon.</h3>
             <p>We'll be in touch from <strong>hello@safesound.ai</strong>.</p>
           </div>`;
       } catch (err) {
-        msg.textContent = 'Submission failed. Please try again later.';
+        msg.textContent = 'Submission failed. Please try again.';
         msg.style.color = '#f66';
         btn.disabled = false;
       }
