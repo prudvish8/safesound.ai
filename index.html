@@ -255,6 +255,18 @@
           notice.style.color = "#b8ff8b";
           notice.textContent = "Thanks  -  you're on the list. We'll email you soon.";
           form.reset();
+          
+          // Add questions line after success message
+          (function addQuestionsLine(){
+            const el = document.querySelector('#beta-status');
+            if (!el) return;
+            const small = document.createElement('div');
+            small.style.marginTop = '6px';
+            small.style.fontSize = '0.95rem';
+            small.style.color = 'var(--hbuk, #C5D040)';
+            small.textContent = "Questions? Write to hello@safesound.ai";
+            el.appendChild(small);
+          })();
         }
       } catch {
         notice.style.color = "#ff6b6b";
